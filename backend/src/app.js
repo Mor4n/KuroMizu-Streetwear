@@ -1,0 +1,21 @@
+import express from 'express';
+import cors from 'cors';
+import dotenv from 'dotenv';
+
+dotenv.config();
+
+const app = express();
+const PORT = process.env.PORT || 4000;
+
+// Middlewares globales
+app.use(cors());
+app.use(express.json());
+
+// Endpoint de prueba (Health check)
+app.get('/api/health', (req, res) => {
+  res.status(200).json({ status: 'ok', message: 'KuroMizu API activa <3' });
+});
+
+app.listen(PORT, () => {
+  console.log(`Servidor KuroMizu corriendo en http://localhost:${PORT}`);
+});
