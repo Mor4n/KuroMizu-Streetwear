@@ -11,7 +11,7 @@ interface AuthDrawerProps {
 }
 
 export default function AuthDrawer({ isOpen, onClose }: AuthDrawerProps) {
-  const { loginState } = useAuth();
+  const { loginState, user, logout } = useAuth();
   const [drawerMode, setDrawerMode] = useState<'menu' | 'login' | 'register'>('menu');
   const [apiError, setApiError] = useState('');
 
@@ -105,25 +105,62 @@ export default function AuthDrawer({ isOpen, onClose }: AuthDrawerProps) {
 
           {drawerMode === 'menu' && (
             <div className="flex flex-col gap-8">
-              <button
-                onClick={() => { setDrawerMode('login'); setApiError(''); }}
-                className="w-full text-left group"
-              >
-                <div className="flex justify-between items-center py-4 border-b border-gray-300 group-hover:border-black transition-colors">
-                  <span className="text-2xl font-medium tracking-wide text-gray-800 group-hover:text-black transition-colors">Iniciar Sesión</span>
-                  <span className="text-gray-500 group-hover:text-kuromizu-accent transition-colors font-bold">&rarr;</span>
-                </div>
-              </button>
+              {user ? (
+                <>
+                  <button
+                    className="w-full text-left group"
+                  >
+                    <div className="flex justify-between items-center py-4 border-b border-gray-300 group-hover:border-black transition-colors">
+                      <span className="text-2xl font-medium tracking-wide text-gray-800 group-hover:text-black transition-colors">Editar cuenta</span>
+                      <span className="text-gray-500 group-hover:text-kuromizu-accent transition-colors font-bold">&rarr;</span>
+                    </div>
+                  </button>
 
-              <button
-                onClick={() => { setDrawerMode('register'); setApiError(''); }}
-                className="w-full text-left group"
-              >
-                <div className="flex justify-between items-center py-4 border-b border-gray-300 group-hover:border-black transition-colors">
-                  <span className="text-2xl font-medium tracking-wide text-gray-800 group-hover:text-black transition-colors">Registrarse</span>
-                  <span className="text-gray-500 group-hover:text-kuromizu-accent transition-colors font-bold">&rarr;</span>
-                </div>
-              </button>
+                  <button
+                    className="w-full text-left group"
+                  >
+                    <div className="flex justify-between items-center py-4 border-b border-gray-300 group-hover:border-black transition-colors">
+                      <span className="text-2xl font-medium tracking-wide text-gray-800 group-hover:text-black transition-colors">Historial de compras</span>
+                      <span className="text-gray-500 group-hover:text-kuromizu-accent transition-colors font-bold">&rarr;</span>
+                    </div>
+                  </button>
+
+                  <button
+                    onClick={() => {
+                      logout();
+                      handleClose();
+                    }}
+                    className="w-full text-left group"
+                  >
+                    <div className="flex justify-between items-center py-4 border-b border-gray-300 group-hover:border-black transition-colors">
+                      <span className="text-2xl font-medium tracking-wide text-kuromizu-accent transition-colors">Cerrar sesión</span>
+                      <span className="text-kuromizu-accent font-bold">&rarr;</span>
+                    </div>
+                  </button>
+                </>
+              ) : (
+                <>
+                  <button
+                    onClick={() => { setDrawerMode('login'); setApiError(''); }}
+                    className="w-full text-left group"
+                  >
+                    <div className="flex justify-between items-center py-4 border-b border-gray-300 group-hover:border-black transition-colors">
+                      <span className="text-2xl font-medium tracking-wide text-gray-800 group-hover:text-black transition-colors">Iniciar Sesión</span>
+                      <span className="text-gray-500 group-hover:text-kuromizu-accent transition-colors font-bold">&rarr;</span>
+                    </div>
+                  </button>
+
+                  <button
+                    onClick={() => { setDrawerMode('register'); setApiError(''); }}
+                    className="w-full text-left group"
+                  >
+                    <div className="flex justify-between items-center py-4 border-b border-gray-300 group-hover:border-black transition-colors">
+                      <span className="text-2xl font-medium tracking-wide text-gray-800 group-hover:text-black transition-colors">Registrarse</span>
+                      <span className="text-gray-500 group-hover:text-kuromizu-accent transition-colors font-bold">&rarr;</span>
+                    </div>
+                  </button>
+                </>
+              )}
             </div>
           )}
 
