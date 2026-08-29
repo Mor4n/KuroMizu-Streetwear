@@ -11,7 +11,7 @@ export const register = async (req, res) => {
             .from('users')
             .select('id')
             .eq('email', email)
-            .single();
+            .maybeSingle();
 
         if (existingUser) {
             return res.status(409).json({ message: 'El correo electrónico ya está registrado' });

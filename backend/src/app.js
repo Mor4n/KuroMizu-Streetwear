@@ -6,7 +6,7 @@ import authRoutes from './routes/auth.routes.js';
 dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT || 4000;
+
 
 // Middlewares globales
 app.use(cors());
@@ -21,7 +21,4 @@ app.get('/api/health', (req, res) => {
   res.status(200).json({ status: 'ok', message: 'KuroMizu API activa <3' });
 });
 
-
-app.listen(PORT, () => {
-  console.log(`Servidor KuroMizu corriendo en http://localhost:${PORT}`);
-});
+export default app;

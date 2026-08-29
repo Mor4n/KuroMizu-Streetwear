@@ -1,1 +1,16 @@
 @import "tailwindcss";
+
+@theme {
+    --color-kuromizu-bg: #ffffff;
+    --color-kuromizu-card: #f9f9f9;
+    --color-kuromizu-border: #eaeaea;
+    --color-kuromizu-accent: #e60000;
+    --color-kuromizu-neon: #000000;
+}
+
+body {
+  margin: 0;
+  background-color: #ffffff;
+  color: #000000;
+  font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
