@@ -15,7 +15,7 @@ export default function Navbar({ onProfileClick }: NavbarProps) {
       </h1>
       <div className="flex gap-6 items-center">
         <button
-          className="group flex items-center gap-2 hover:text-gray-500 transition-colors"
+          className="group flex items-center gap-2 hover:text-gray-500 transition-colors cursor-pointer"
           aria-label="Carrito de compras"
         >
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5 transition-transform group-hover:scale-110">
@@ -26,7 +26,7 @@ export default function Navbar({ onProfileClick }: NavbarProps) {
         {user ? (
           <button
             onClick={onProfileClick}
-            className="group flex items-center gap-2 hover:text-gray-500 transition-colors"
+            className="group flex items-center gap-2 hover:text-gray-500 transition-colors cursor-pointer"
             aria-label="Menu de cuenta"
           >
             <span className="text-xs font-semibold uppercase tracking-widest hidden md:inline">{user.name}</span>
@@ -44,7 +44,7 @@ export default function Navbar({ onProfileClick }: NavbarProps) {
         ) : (
           <button
             onClick={onProfileClick}
-            className="group flex items-center gap-2 hover:text-gray-500 transition-colors"
+            className="group flex items-center gap-2 hover:text-gray-500 transition-colors cursor-pointer"
             aria-label="Menu de usuario"
           >
             <span className="text-xs font-semibold uppercase tracking-widest hidden md:inline">Perfil</span>
