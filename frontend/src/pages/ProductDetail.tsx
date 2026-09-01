@@ -20,6 +20,10 @@ export default function ProductDetail() {
     const [selectedImage, setSelectedImage] = useState<string>('');
     const [selectedSize, setSelectedSize] = useState<string>('');
     const [isAdding, setIsAdding] = useState(false);
+    
+    // Estados para el zoom tipo lupa
+    const [backgroundPosition, setBackgroundPosition] = useState('0% 0%');
+    const [isZooming, setIsZooming] = useState(false);
 
     useEffect(() => {
         fetchProduct();
@@ -57,6 +61,13 @@ export default function ProductDetail() {
         }, 600);
     };
 
+    const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+        const { left, top, width, height } = e.currentTarget.getBoundingClientRect();
+        const x = ((e.clientX - left) / width) * 100;
+        const y = ((e.clientY - top) / height) * 100;
+        setBackgroundPosition(`${x}% ${y}%`);
+    };
+
     if (loading) {
         return (
             <div className="min-h-[70vh] flex items-center justify-center">
@@ -85,7 +96,7 @@ export default function ProductDetail() {
             <div className="flex flex-col md:flex-row gap-12 lg:gap-20">
                 {/* Lado Izquierdo: Galería de Imágenes */}
                 <div className="w-full md:w-1/2 flex flex-col-reverse lg:flex-row gap-4">
-                    {/* Miniaturas */}
+                    {/* Willy, miniatura miniatura */}
                     {product.image_urls && product.image_urls.length > 1 && (
                         <div className="flex lg:flex-col gap-3 overflow-x-auto lg:overflow-visible">
                             {product.image_urls.map((url, idx) => (
@@ -103,7 +114,28 @@ export default function ProductDetail() {
                     {/* Imagen Principal */}
                     <div className="w-full aspect-[4/5] bg-gray-50  overflow-hidden relative">
                         {selectedImage ? (
-                            <img src={selectedImage} alt={product.name} className="w-full h-full object-contain" />
+                            <div 
+                                className="w-full h-full flex items-center justify-center cursor-crosshair relative"
+                                onMouseMove={handleMouseMove}
+                                onMouseEnter={() => setIsZooming(true)}
+                                onMouseLeave={() => setIsZooming(false)}
+                            >
+                                <img 
+                                    src={selectedImage} 
+                                    alt={product.name} 
+                                    className={`max-h-[80vh] w-auto h-full object-contain transition-opacity duration-300 ${isZooming ? 'opacity-0' : 'opacity-100'}`} 
+                                />
+                                {isZooming && (
+                                    <div 
+                                        className="absolute inset-0 bg-no-repeat pointer-events-none"
+                                        style={{
+                                            backgroundImage: `url(${selectedImage})`,
+                                            backgroundPosition: backgroundPosition,
+                                            backgroundSize: '250%'
+                                        }}
+                                    />
+                                )}
+                            </div>
                         ) : (
                             <div className="w-full h-full flex items-center justify-center text-gray-400">Sin imagen</div>
                         )}
