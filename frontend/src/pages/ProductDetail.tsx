@@ -103,7 +103,7 @@ export default function ProductDetail() {
                     {/* Imagen Principal */}
                     <div className="w-full aspect-[4/5] bg-gray-50  overflow-hidden relative">
                         {selectedImage ? (
-                            <img src={selectedImage} alt={product.name} className="w-full h-full object-cover" />
+                            <img src={selectedImage} alt={product.name} className="w-full h-full object-contain" />
                         ) : (
                             <div className="w-full h-full flex items-center justify-center text-gray-400">Sin imagen</div>
                         )}
@@ -115,10 +115,10 @@ export default function ProductDetail() {
                     </div>
                 </div>
 
-                {/* Parte del derecho: Información del Producto */}
-                <div className="w-full md:w-1/2 flex flex-col justify-center bg-[#f5f5f5] p-8 lg:p-12 rounded-2xl">
+                {/* Lado Derecho: Información del Producto */}
+                <div className="w-full md:w-1/2 flex flex-col justify-center bg-[#f5f5f5] p-8 lg:p-12 rounded-none border border-gray-200">
                     <p className="text-gray-500 font-semibold tracking-widest uppercase text-xs mb-2">{product.category}</p>
-                    <h1 className="text-xl lg:text-2xl font-normal uppercase tracking-tight mb-4 leading-none">{product.name}</h1>
+                    <h1 className="text-2xl lg:text-4xl font-display uppercase tracking-wider mb-4 leading-none">{product.name}</h1>
                     <p className="text-2xl font-bold mb-8">${Number(product.price).toFixed(2)}</p>
 
                     <p className="text-gray-600 mb-10 leading-relaxed font-medium">
@@ -137,7 +137,7 @@ export default function ProductDetail() {
                                         key={ps.size}
                                         onClick={() => ps.stock > 0 && setSelectedSize(ps.size)}
                                         disabled={ps.stock === 0}
-                                        className={`py-3 text-sm font-bold  transition-all border-1   ${ps.stock === 0
+                                        className={`py-3 text-sm font-bold rounded-none transition-all border-1   ${ps.stock === 0
                                             ? 'opacity-40 bg-gray-100 text-gray-400 cursor-not-allowed border-gray-200 line-through'
                                             : selectedSize === ps.size
                                                 ? 'border-black bg-transparent text-black cursor-pointer'
@@ -168,19 +168,19 @@ export default function ProductDetail() {
                             <button
                                 onClick={handleAddToCart}
                                 disabled={isSoldOut || isAdding}
-                                className={`w-full py-4 text-center font-black uppercase tracking-[0.2em]  transition-all relative overflow-hidden group cursor-pointer
+                                className={`w-full py-5 text-center font-bold uppercase tracking-[0.3em] rounded-none transition-all relative overflow-hidden cursor-pointer
                                     ${isSoldOut
                                         ? 'bg-gray-200 text-gray-500 cursor-not-allowed'
-                                        : 'bg-black text-white hover:bg-gray-900 shadow-xl'
+                                        : 'bg-black text-white hover:bg-gray-900 border-2 border-black hover:border-transparent'
                                     }
                                 `}
                             >
                                 {isAdding ? (
-                                    <span className="inline-block animate-pulse">Añadiendo...</span>
+                                    <span className="inline-block animate-pulse">PROCESSING...</span>
                                 ) : isSoldOut ? (
-                                    'Agotado'
+                                    'OUT OF STOCK'
                                 ) : (
-                                    'Añadir al carrito'
+                                    'ADD TO BAG'
                                 )}
                             </button>
                         );
