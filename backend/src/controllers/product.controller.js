@@ -35,11 +35,12 @@ export const getProductById = async (req, res) => {
 
         const { data: product, error } = await supabase
             .from('products')
-            .select('*')
+            .select('*, product_sizes(*)')
             .eq('id', id)
             .single();
 
         if (error || !product) {
+            console.error("Supabase Error:", error);
             return res.status(404).json({ message: 'Producto no encontrado' });
         }
 

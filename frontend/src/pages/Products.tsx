@@ -98,7 +98,7 @@ export default function Products() {
                             </div>
                             <div className="ml-1.5 ">
                                 <h3 className="text-[#0B0B0B] text-xs mt-1 font-semibold truncate work-sans">{product.name}</h3>
-                                <p className="text-[#0B0B0B] text-black mt-1 mb-2 text-xs font-bold work-sans">${product.price}</p>
+                                <p className="text-[#0B0B0B] text-black mt-1 mb-2 text-xs font-bold work-sans">${Number(product.price).toFixed(2)}</p>
                             </div>
                         </Link>
                     ))}
