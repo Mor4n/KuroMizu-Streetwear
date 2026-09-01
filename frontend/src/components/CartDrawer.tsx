@@ -2,37 +2,34 @@ import { useCart } from '../context/CartContext';
 import { Link } from 'react-router-dom';
 
 export default function CartDrawer() {
-    const { 
-        items, 
-        isCartOpen, 
-        setIsCartOpen, 
-        cartTotal, 
-        removeFromCart, 
-        updateQuantity 
+    const {
+        items,
+        isCartOpen,
+        setIsCartOpen,
+        cartTotal,
+        removeFromCart,
+        updateQuantity
     } = useCart();
 
     return (
         <>
-            {/* Fondo oscuro (Overlay) */}
-            <div 
-                className={`fixed inset-0 bg-black/50 z-40 transition-opacity duration-300 ${
-                    isCartOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
-                }`}
+            <div
+                className={`fixed inset-0 bg-black/50 z-40 transition-opacity duration-300 ${isCartOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
+                    }`}
                 onClick={() => setIsCartOpen(false)}
             />
 
-            {/* Panel lateral del carrito */}
-            <div 
-                className={`fixed top-0 right-0 h-full w-full sm:w-[400px] bg-white z-50 shadow-2xl transform transition-transform duration-300 ease-in-out flex flex-col ${
-                    isCartOpen ? 'translate-x-0' : 'translate-x-full'
-                }`}
+            {/* Lateral del carrito */}
+            <div
+                className={`fixed top-0 right-0 h-full w-full sm:w-[400px] bg-white z-50 shadow-2xl transform transition-transform duration-300 ease-in-out flex flex-col ${isCartOpen ? 'translate-x-0' : 'translate-x-full'
+                    }`}
             >
-                {/* Header del carrito */}
+                {/* Header  */}
                 <div className="flex items-center justify-between p-6 border-b border-gray-100">
                     <h2 className="font-display text-2xl uppercase tracking-wider">Tu Bolsa</h2>
-                    <button 
+                    <button
                         onClick={() => setIsCartOpen(false)}
-                        className="text-gray-400 hover:text-black transition-colors"
+                        className="text-gray-400 hover:text-black transition-colors cursor-pointer"
                     >
                         <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M6 18L18 6M6 6l12 12" />
@@ -40,7 +37,7 @@ export default function CartDrawer() {
                     </button>
                 </div>
 
-                {/* Contenido del carrito */}
+                {/* Contenido */}
                 <div className="flex-1 overflow-y-auto p-6">
                     {items.length === 0 ? (
                         <div className="h-full flex flex-col items-center justify-center text-gray-500 space-y-4">
@@ -48,9 +45,9 @@ export default function CartDrawer() {
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
                             </svg>
                             <p className="text-sm tracking-widest uppercase">Tu bolsa está vacía</p>
-                            <button 
+                            <button
                                 onClick={() => setIsCartOpen(false)}
-                                className="mt-4 border-b border-black text-black font-semibold text-sm hover:text-gray-600 transition-colors"
+                                className="mt-4 border-b border-black text-black font-semibold text-sm hover:text-gray-600 transition-colors cursor-pointer"
                             >
                                 SEGUIR COMPRANDO
                             </button>
@@ -58,8 +55,10 @@ export default function CartDrawer() {
                     ) : (
                         <div className="space-y-6">
                             {items.map((item) => (
+
+
                                 <div key={`${item.id}-${item.size}`} className="flex gap-4">
-                                    {/* Imagen del producto */}
+                                    {/* Imagen */}
                                     <div className="w-24 h-32 bg-gray-50 flex-shrink-0">
                                         {item.image_url ? (
                                             <img src={item.image_url} alt={item.name} className="w-full h-full object-contain" />
@@ -68,14 +67,14 @@ export default function CartDrawer() {
                                         )}
                                     </div>
 
-                                    {/* Detalles del producto */}
+                                    {/* Detalles */}
                                     <div className="flex-1 flex flex-col justify-between py-1">
                                         <div>
                                             <div className="flex justify-between items-start">
                                                 <h3 className="font-bold text-sm uppercase tracking-wide pr-4 leading-tight">{item.name}</h3>
-                                                <button 
+                                                <button
                                                     onClick={() => removeFromCart(item.id, item.size)}
-                                                    className="text-gray-400 hover:text-red-500 transition-colors"
+                                                    className="text-gray-400 hover:text-red-500 transition-colors cursor-pointer"
                                                     title="Eliminar"
                                                 >
                                                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -87,18 +86,18 @@ export default function CartDrawer() {
                                         </div>
 
                                         <div className="flex justify-between items-end mt-4">
-                                            {/* Controles de cantidad */}
+                                            {/* Cantidad */}
                                             <div className="flex items-center border border-gray-200">
-                                                <button 
+                                                <button
                                                     onClick={() => updateQuantity(item.id, item.size, item.quantity - 1)}
-                                                    className="px-3 py-1 hover:bg-gray-50 transition-colors"
+                                                    className="px-3 py-1 hover:bg-gray-50 transition-colors cursor-pointer"
                                                 >-</button>
                                                 <span className="px-3 py-1 text-sm font-medium border-x border-gray-200 min-w-[2.5rem] text-center">
                                                     {item.quantity}
                                                 </span>
-                                                <button 
+                                                <button
                                                     onClick={() => updateQuantity(item.id, item.size, item.quantity + 1)}
-                                                    className="px-3 py-1 hover:bg-gray-50 transition-colors"
+                                                    className="px-3 py-1 hover:bg-gray-50 transition-colors cursor-pointer"
                                                 >+</button>
                                             </div>
                                             <p className="font-bold text-sm">${(item.price * item.quantity).toFixed(2)}</p>
@@ -110,7 +109,7 @@ export default function CartDrawer() {
                     )}
                 </div>
 
-                {/* Footer del carrito (Subtotal y Checkout) */}
+                {/* Footer Subtotal - Checkout */}
                 {items.length > 0 && (
                     <div className="border-t border-gray-100 p-6 bg-white">
                         <div className="flex justify-between items-center mb-6">
@@ -118,7 +117,7 @@ export default function CartDrawer() {
                             <span className="font-bold text-lg">${cartTotal.toFixed(2)}</span>
                         </div>
                         <p className="text-xs text-gray-500 mb-6 text-center">Los impuestos y el envío se calculan en el checkout.</p>
-                        
+
                         <Link to="/checkout" onClick={() => setIsCartOpen(false)}>
                             <button className="w-full bg-black text-white py-4 text-sm font-bold tracking-widest hover:bg-gray-900 transition-colors uppercase border-2 border-black hover:border-transparent">
                                 PROCEDER AL PAGO

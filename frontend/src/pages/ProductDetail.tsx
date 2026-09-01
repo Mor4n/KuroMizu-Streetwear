@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import api from '../api/axios';
+import { useCart } from '../context/CartContext';
 
 interface Product {
     id: string;
@@ -20,7 +21,8 @@ export default function ProductDetail() {
     const [selectedImage, setSelectedImage] = useState<string>('');
     const [selectedSize, setSelectedSize] = useState<string>('');
     const [isAdding, setIsAdding] = useState(false);
-    
+    const { addToCart } = useCart();
+
     // Estados para el zoom tipo lupa
     const [backgroundPosition, setBackgroundPosition] = useState('0% 0%');
     const [isZooming, setIsZooming] = useState(false);
@@ -52,13 +54,22 @@ export default function ProductDetail() {
             return;
         }
 
+        if (!product) return;
+
         setIsAdding(true);
 
-        // Simular petición al carrito
+        // Se agrega a la bolsita usando contexto
         setTimeout(() => {
+            addToCart({
+                id: product.id,
+                name: product.name,
+                price: Number(product.price),
+                size: selectedSize,
+                quantity: 1,
+                image_url: selectedImage || (product.image_urls && product.image_urls.length > 0 ? product.image_urls[0] : undefined)
+            });
             setIsAdding(false);
-            alert('¡Añadido al carrito exitosamente!');
-        }, 600);
+        }, 400); // Pausa pa mostrar la animación en el botón
     };
 
     const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -114,19 +125,19 @@ export default function ProductDetail() {
                     {/* Imagen Principal */}
                     <div className="w-full aspect-[4/5] bg-gray-50  overflow-hidden relative">
                         {selectedImage ? (
-                            <div 
+                            <div
                                 className="w-full h-full flex items-center justify-center cursor-crosshair relative"
                                 onMouseMove={handleMouseMove}
                                 onMouseEnter={() => setIsZooming(true)}
                                 onMouseLeave={() => setIsZooming(false)}
                             >
-                                <img 
-                                    src={selectedImage} 
-                                    alt={product.name} 
-                                    className={`max-h-[80vh] w-auto h-full object-contain transition-opacity duration-300 ${isZooming ? 'opacity-0' : 'opacity-100'}`} 
+                                <img
+                                    src={selectedImage}
+                                    alt={product.name}
+                                    className={`max-h-[80vh] w-auto h-full object-contain transition-opacity duration-300 ${isZooming ? 'opacity-0' : 'opacity-100'}`}
                                 />
                                 {isZooming && (
-                                    <div 
+                                    <div
                                         className="absolute inset-0 bg-no-repeat pointer-events-none"
                                         style={{
                                             backgroundImage: `url(${selectedImage})`,
