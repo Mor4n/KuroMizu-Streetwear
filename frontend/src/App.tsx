@@ -5,6 +5,7 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import Products from './pages/Products';
 import ProductDetail from './pages/ProductDetail';
+import Checkout from './pages/Checkout';
 import Layout from './components/Layout';
 
 function Home() {
@@ -60,6 +61,7 @@ export default function App() {
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
               <Route path="/products/:id" element={<ProductDetail />} />
+              <Route path="/checkout" element={<Checkout />} />
             </Routes>
           </Layout>
         </BrowserRouter>
