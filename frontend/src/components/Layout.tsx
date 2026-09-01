@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import Navbar from './Navbar';
 import AuthDrawer from './AuthDrawer';
+import CartDrawer from './CartDrawer';
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
@@ -18,6 +19,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       </div>
 
       <AuthDrawer isOpen={isDrawerOpen} onClose={() => setIsDrawerOpen(false)} />
+      <CartDrawer />
 
       <main className={isHomePage ? "" : "flex-grow"}>
         {children}

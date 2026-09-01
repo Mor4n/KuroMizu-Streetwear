@@ -15,12 +15,11 @@ interface CartContextType {
     removeFromCart: (id: string, size: string) => void;
     updateQuantity: (id: string, size: string, quantity: number) => void;
     clearCart: () => void;
-    
-    // UI state para el Drawer
+
+    // UI para Drawer
     isCartOpen: boolean;
     setIsCartOpen: (isOpen: boolean) => void;
-    
-    // Utilidades
+
     cartTotal: number;
     cartCount: number;
 }
@@ -33,23 +32,23 @@ export function CartProvider({ children }: { children: ReactNode }) {
 
     const addToCart = (newItem: CartItem) => {
         setItems(prevItems => {
-            // Buscamos si ya existe el MISMO producto con la MISMA talla
+            // Buscamos si ya existeee el MISMO producto con la MISMA talla
             const existingItemIndex = prevItems.findIndex(
                 item => item.id === newItem.id && item.size === newItem.size
             );
 
             if (existingItemIndex >= 0) {
-                // Si existe, solo sumamos la cantidad
+                // Si existe entonces solo sumamos la cantidad
                 const newItems = [...prevItems];
                 newItems[existingItemIndex].quantity += newItem.quantity;
                 return newItems;
             } else {
-                // Si es un producto nuevo o talla diferente, lo agregamos como nuevo item
+                // Si es un producto nuevo o talla diferente, se agrega como nuevo item
                 return [...prevItems, newItem];
             }
         });
-        
-        // Abrir el carrito automáticamente para que el usuario vea que se agregó
+
+        // Abrir el carrito automáticamente para que el usuario sheque que se agregó
         setIsCartOpen(true);
     };
 
@@ -62,8 +61,8 @@ export function CartProvider({ children }: { children: ReactNode }) {
             removeFromCart(id, size);
             return;
         }
-        
-        setItems(prevItems => prevItems.map(item => 
+
+        setItems(prevItems => prevItems.map(item =>
             (item.id === id && item.size === size) ? { ...item, quantity } : item
         ));
     };
@@ -72,10 +71,10 @@ export function CartProvider({ children }: { children: ReactNode }) {
         setItems([]);
     };
 
-    // Calculamos el total de dinero
+    // Total de dinero
     const cartTotal = items.reduce((total, item) => total + (item.price * item.quantity), 0);
-    
-    // Calculamos cuántos artículos en total hay (ej: 2 playeras rojas cuentan como 2)
+
+    // Cuantos artículos en total hay (x ejem: 2 playeras rojas cuentan como 2)
     const cartCount = items.reduce((count, item) => count + item.quantity, 0);
 
     return (
@@ -98,7 +97,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
 export function useCart() {
     const context = useContext(CartContext);
     if (context === undefined) {
-        throw new Error('useCart must be used dentro de un CartProvider');
+        throw new Error('useCart debe de ser usado dentro de un CartProvider');
     }
     return context;
 }
