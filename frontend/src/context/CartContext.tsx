@@ -6,6 +6,7 @@ export interface CartItem {
     price: number;
     size: string;
     quantity: number;
+    maxStock: number;
     image_url?: string;
 }
 
@@ -38,9 +39,10 @@ export function CartProvider({ children }: { children: ReactNode }) {
             );
 
             if (existingItemIndex >= 0) {
-                // Si existe entonces solo sumamos la cantidad
+                // Si existe entonces solo sumamos la cantidad (limitando por maxStock)
                 const newItems = [...prevItems];
-                newItems[existingItemIndex].quantity += newItem.quantity;
+                const newQuantity = newItems[existingItemIndex].quantity + newItem.quantity;
+                newItems[existingItemIndex].quantity = Math.min(newQuantity, newItems[existingItemIndex].maxStock);
                 return newItems;
             } else {
                 // Si es un producto nuevo o talla diferente, se agrega como nuevo item
@@ -62,9 +64,12 @@ export function CartProvider({ children }: { children: ReactNode }) {
             return;
         }
 
-        setItems(prevItems => prevItems.map(item =>
-            (item.id === id && item.size === size) ? { ...item, quantity } : item
-        ));
+        setItems(prevItems => prevItems.map(item => {
+            if (item.id === id && item.size === size) {
+                return { ...item, quantity: Math.min(quantity, item.maxStock) };
+            }
+            return item;
+        }));
     };
 
     const clearCart = () => {

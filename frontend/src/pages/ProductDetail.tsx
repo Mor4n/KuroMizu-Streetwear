@@ -58,6 +58,10 @@ export default function ProductDetail() {
 
         setIsAdding(true);
 
+        // Buscar stock de talla seleccionada
+        const selectedPs = product.product_sizes?.find(ps => ps.size === selectedSize);
+        const maxStock = selectedPs ? selectedPs.stock : product.stock;
+
         // Se agrega a la bolsita usando contexto
         setTimeout(() => {
             addToCart({
@@ -66,6 +70,7 @@ export default function ProductDetail() {
                 price: Number(product.price),
                 size: selectedSize,
                 quantity: 1,
+                maxStock: maxStock,
                 image_url: selectedImage || (product.image_urls && product.image_urls.length > 0 ? product.image_urls[0] : undefined)
             });
             setIsAdding(false);
