@@ -1,7 +1,13 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useCart } from '../context/CartContext';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import { loadStripe } from '@stripe/stripe-js';
+import { Elements } from '@stripe/react-stripe-js';
+import PaymentForm from '../components/PaymentForm';
+import api from '../api/axios';
+
+const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLIC_KEY || '');
 
 export default function Checkout() {
     const { items, cartTotal } = useCart();
@@ -15,6 +21,10 @@ export default function Checkout() {
         city: '',
         zip: '',
     });
+
+    const [clientSecret, setClientSecret] = useState('');
+    const [orderId, setOrderId] = useState('');
+    const [isCreatingIntent, setIsCreatingIntent] = useState(false);
 
     // Si el carrito está vacío, no deberíamos estar aquí >:l
     if (items.length === 0) {
@@ -35,11 +45,25 @@ export default function Checkout() {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
-    const handleProceedToPayment = (e: React.FormEvent) => {
+    const handleProceedToPayment = async (e: React.FormEvent) => {
         e.preventDefault();
-        // TODO: Llamar ahorita al backend para crear el try de pago con Stripe
-        console.log("Procediendo al pago con los datos:", formData);
 
+        setIsCreatingIntent(true);
+
+        try {
+            const response = await api.post('/checkout/create-payment-intent', {
+                items,
+                shippingData: formData,
+                userId: user?.id
+            });
+
+            setClientSecret(response.data.clientSecret);
+            setOrderId(response.data.orderId);
+        } catch (error) {
+            console.error('Error al iniciar el pago:', error);
+            alert('Hubo un error al conectar con el procesador de pagos.');
+            setIsCreatingIntent(false);
+        }
     };
 
     return (
@@ -49,76 +73,95 @@ export default function Checkout() {
             <div className="flex flex-col lg:flex-row gap-12 lg:gap-24">
                 {/* Lado Izquierdo doned está el Formulario de Envío */}
                 <div className="w-full lg:w-3/5">
-                    <h2 className="text-xl font-bold tracking-widest uppercase mb-6 border-b border-gray-200 pb-4">1. Datos de Envío</h2>
+                    {!clientSecret ? (
+                        <>
+                            <h2 className="text-xl font-bold tracking-widest uppercase mb-6 border-b border-gray-200 pb-4">1. Datos de Envío</h2>
 
-                    <form id="shipping-form" onSubmit={handleProceedToPayment} className="space-y-6">
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <div>
-                                <label className="block text-xs font-bold uppercase tracking-wider mb-2">Nombre Completo</label>
-                                <input
-                                    type="text"
-                                    name="name"
-                                    required
-                                    value={formData.name}
-                                    onChange={handleChange}
-                                    className="w-full border-2 border-gray-200 p-3 focus:border-black focus:outline-none transition-colors rounded-none"
-                                    placeholder="Adriana"
-                                />
-                            </div>
-                            <div>
-                                <label className="block text-xs font-bold uppercase tracking-wider mb-2">Email</label>
-                                <input
-                                    type="email"
-                                    name="email"
-                                    required
-                                    value={formData.email}
-                                    onChange={handleChange}
-                                    className="w-full border-2 border-gray-200 p-3 focus:border-black focus:outline-none transition-colors rounded-none"
-                                    placeholder="adriana@kuromizu.com"
-                                />
-                            </div>
-                        </div>
+                            <form id="shipping-form" onSubmit={handleProceedToPayment} className="space-y-6">
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    <div>
+                                        <label className="block text-xs font-bold uppercase tracking-wider mb-2">Nombre Completo</label>
+                                        <input
+                                            type="text"
+                                            name="name"
+                                            required
+                                            value={formData.name}
+                                            onChange={handleChange}
+                                            className="w-full border-2 border-gray-200 p-3 focus:border-black focus:outline-none transition-colors rounded-none"
+                                            placeholder="Adriana"
+                                        />
+                                    </div>
+                                    <div>
+                                        <label className="block text-xs font-bold uppercase tracking-wider mb-2">Email</label>
+                                        <input
+                                            type="email"
+                                            name="email"
+                                            required
+                                            value={formData.email}
+                                            onChange={handleChange}
+                                            className="w-full border-2 border-gray-200 p-3 focus:border-black focus:outline-none transition-colors rounded-none"
+                                            placeholder="adriana@kuromizu.com"
+                                        />
+                                    </div>
+                                </div>
 
-                        <div>
-                            <label className="block text-xs font-bold uppercase tracking-wider mb-2">Dirección de envío</label>
-                            <input
-                                type="text"
-                                name="address"
-                                required
-                                value={formData.address}
-                                onChange={handleChange}
-                                className="w-full border-2 border-gray-200 p-3 focus:border-black focus:outline-none transition-colors rounded-none"
-                                placeholder="Calle y número exterior / interior"
-                            />
-                        </div>
+                                <div>
+                                    <label className="block text-xs font-bold uppercase tracking-wider mb-2">Dirección de envío</label>
+                                    <input
+                                        type="text"
+                                        name="address"
+                                        required
+                                        value={formData.address}
+                                        onChange={handleChange}
+                                        className="w-full border-2 border-gray-200 p-3 focus:border-black focus:outline-none transition-colors rounded-none"
+                                        placeholder="Calle y número exterior / interior"
+                                    />
+                                </div>
 
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <div>
-                                <label className="block text-xs font-bold uppercase tracking-wider mb-2">Ciudad</label>
-                                <input
-                                    type="text"
-                                    name="city"
-                                    required
-                                    value={formData.city}
-                                    onChange={handleChange}
-                                    className="w-full border-2 border-gray-200 p-3 focus:border-black focus:outline-none transition-colors rounded-none"
-                                    placeholder="Agua Prieta"
-                                />
-                            </div>
-                            <div>
-                                <label className="block text-xs font-bold uppercase tracking-wider mb-2">Código Postal</label>
-                                <input
-                                    type="text"
-                                    name="zip"
-                                    required
-                                    value={formData.zip}
-                                    onChange={handleChange}
-                                    className="w-full border-2 border-gray-200 p-3 focus:border-black focus:outline-none transition-colors rounded-none"
-                                    placeholder="84200"
-                                />
-                            </div>
-                        </div>
-                    </form>
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    <div>
+                                        <label className="block text-xs font-bold uppercase tracking-wider mb-2">Ciudad</label>
+                                        <input
+                                            type="text"
+                                            name="city"
+                                            required
+                                            value={formData.city}
+                                            onChange={handleChange}
+                                            className="w-full border-2 border-gray-200 p-3 focus:border-black focus:outline-none transition-colors rounded-none"
+                                            placeholder="Agua Prieta"
+                                        />
+                                    </div>
+                                    <div>
+                                        <label className="block text-xs font-bold uppercase tracking-wider mb-2">Código Postal</label>
+                                        <input
+                                            type="text"
+                                            name="zip"
+                                            required
+                                            value={formData.zip}
+                                            onChange={handleChange}
+                                            className="w-full border-2 border-gray-200 p-3 focus:border-black focus:outline-none transition-colors rounded-none"
+                                            placeholder="84200"
+                                        />
+                                    </div>
+                                </div>
+                            </form>
+                        </>
+                    ) : (
+                        <>
+                            <h2 className="text-xl font-bold tracking-widest uppercase mb-6 border-b border-gray-200 pb-4 flex justify-between items-center">
+                                2. Método de Pago
+                                <button
+                                    onClick={() => { setClientSecret(''); setIsCreatingIntent(false); }}
+                                    className="text-xs text-gray-500 hover:text-black transition-colors"
+                                >
+                                    Modificar envío
+                                </button>
+                            </h2>
+                            <Elements options={{ clientSecret }} stripe={stripePromise}>
+                                <PaymentForm clientSecret={clientSecret} orderId={orderId} />
+                            </Elements>
+                        </>
+                    )}
                 </div>
 
                 {/* Lado Derecho donde está la Orden */}
@@ -159,17 +202,18 @@ export default function Checkout() {
                             </div>
                         </div>
 
-                        <button
-                            type="submit"
-                            form="shipping-form"
-                            className="w-full bg-black text-white py-4 mt-8 text-sm font-bold tracking-widest uppercase hover:bg-gray-900 transition-colors border-2 border-black hover:border-transparent cursor-pointer"
-                        >
-                            Continuar al Pago
-                        </button>
+                        {!clientSecret && (
+                            <button
+                                type="submit"
+                                form="shipping-form"
+                                disabled={isCreatingIntent}
+                                className="w-full bg-black text-white py-4 mt-8 text-sm font-bold tracking-widest uppercase hover:bg-gray-900 transition-colors border-2 border-black hover:border-transparent cursor-pointer disabled:opacity-50"
+                            >
+                                {isCreatingIntent ? 'Cargando Pago...' : 'Continuar al Pago'}
+                            </button>
+                        )}
 
-                        <p className="text-[10px] text-gray-400 text-center uppercase tracking-wider mt-4">
-                            Pagos seguros encriptados
-                        </p>
+
                     </div>
                 </div>
             </div>
