@@ -116,6 +116,21 @@ export default function AuthDrawer({ isOpen, onClose }: AuthDrawerProps) {
                     </div>
                   </button>
 
+                  {user.role === 'admin' && (
+                    <button
+                      onClick={() => {
+                        handleClose();
+                        window.location.href = '/admin';
+                      }}
+                      className="w-full text-left group"
+                    >
+                      <div className="flex justify-between items-center py-4 border-b border-gray-300 group-hover:border-black transition-colors">
+                        <span className="text-2xl font-medium tracking-wide text-gray-800 group-hover:text-black transition-colors">Panel Admin</span>
+                        <span className="text-gray-500 group-hover:text-kuromizu-accent transition-colors font-bold">&rarr;</span>
+                      </div>
+                    </button>
+                  )}
+
                   <button
                     className="w-full text-left group"
                   >

@@ -7,7 +7,9 @@ import Products from './pages/Products';
 import ProductDetail from './pages/ProductDetail';
 import Checkout from './pages/Checkout';
 import CheckoutSuccess from './pages/CheckoutSuccess';
+import AdminDashboard from './pages/AdminDashboard';
 import Layout from './components/Layout';
+import ProtectedRoute from './components/ProtectedRoute';
 
 function Home() {
   return (
@@ -64,6 +66,11 @@ export default function App() {
               <Route path="/products/:id" element={<ProductDetail />} />
               <Route path="/checkout" element={<Checkout />} />
               <Route path="/checkout/success" element={<CheckoutSuccess />} />
+
+              {/* Admin */}
+              <Route element={<ProtectedRoute requiredRole="admin" />}>
+                <Route path="/admin" element={<AdminDashboard />} />
+              </Route>
             </Routes>
           </Layout>
         </BrowserRouter>
