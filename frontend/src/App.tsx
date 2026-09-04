@@ -8,6 +8,7 @@ import ProductDetail from './pages/ProductDetail';
 import Checkout from './pages/Checkout';
 import CheckoutSuccess from './pages/CheckoutSuccess';
 import AdminDashboard from './pages/AdminDashboard';
+import MyOrders from './pages/MyOrders';
 import Layout from './components/Layout';
 import ProtectedRoute from './components/ProtectedRoute';
 
@@ -67,7 +68,10 @@ export default function App() {
               <Route path="/checkout" element={<Checkout />} />
               <Route path="/checkout/success" element={<CheckoutSuccess />} />
 
-              {/* Admin */}
+              <Route element={<ProtectedRoute />}>
+                <Route path="/my-orders" element={<MyOrders />} />
+              </Route>
+
               <Route element={<ProtectedRoute requiredRole="admin" />}>
                 <Route path="/admin" element={<AdminDashboard />} />
               </Route>

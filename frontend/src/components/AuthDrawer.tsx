@@ -67,7 +67,6 @@ export default function AuthDrawer({ isOpen, onClose }: AuthDrawerProps) {
 
   return (
     <>
-      {/* Overlay */}
       {isOpen && (
         <div
           className="fixed inset-0 bg-white/80 backdrop-blur-md z-40 transition-opacity"
@@ -75,7 +74,6 @@ export default function AuthDrawer({ isOpen, onClose }: AuthDrawerProps) {
         />
       )}
 
-      {/* Drawer */}
       <div
         className={`fixed top-0 right-0 h-full w-full sm:w-[400px] bg-white shadow-[0_0_40px_rgba(0,0,0,0.05)] z-50 transform transition-transform duration-500 ease-[cubic-bezier(0.19,1,0.22,1)] ${isOpen ? 'translate-x-0' : 'translate-x-full'
           } overflow-y-auto`}
@@ -132,6 +130,10 @@ export default function AuthDrawer({ isOpen, onClose }: AuthDrawerProps) {
                   )}
 
                   <button
+                    onClick={() => {
+                      handleClose();
+                      window.location.href = '/my-orders';
+                    }}
                     className="w-full text-left group"
                   >
                     <div className="flex justify-between items-center py-4 border-b border-gray-300 group-hover:border-black transition-colors">
