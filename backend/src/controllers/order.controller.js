@@ -50,3 +50,34 @@ export const updateOrderStatus = async (req, res) => {
     res.status(500).json({ message: 'Error al actualizar la orden', error: error.message });
   }
 };
+
+export const getMyOrders = async (req, res) => {
+  try {
+    const userId = req.user.id;
+
+    const { data, error } = await supabase
+      .from('orders')
+      .select(`
+        *,
+        order_items (
+          id,
+          quantity,
+          price_at_time,
+          size,
+          products (
+            name,
+            image_urls
+          )
+        )
+      `)
+      .eq('user_id', userId)
+      .order('created_at', { ascending: false });
+
+    if (error) throw error;
+
+    res.status(200).json(data);
+  } catch (error) {
+    console.error('Error fetching user orders:', error);
+    res.status(500).json({ message: 'Error al obtener tus órdenes' });
+  }
+};
