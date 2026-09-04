@@ -87,7 +87,7 @@ export default function AuthDrawer({ isOpen, onClose }: AuthDrawerProps) {
             </h2>
             <button
               onClick={handleClose}
-              className="text-gray-600 hover:text-black transition-colors"
+              className="text-gray-600 hover:text-black transition-colors cursor-pointer"
             >
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-6 h-6">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
@@ -106,7 +106,7 @@ export default function AuthDrawer({ isOpen, onClose }: AuthDrawerProps) {
               {user ? (
                 <>
                   <button
-                    className="w-full text-left group"
+                    className="w-full text-left group cursor-pointer"
                   >
                     <div className="flex justify-between items-center py-4 border-b border-gray-300 group-hover:border-black transition-colors">
                       <span className="text-2xl font-medium tracking-wide text-gray-800 group-hover:text-black transition-colors">Editar cuenta</span>
@@ -120,7 +120,7 @@ export default function AuthDrawer({ isOpen, onClose }: AuthDrawerProps) {
                         handleClose();
                         window.location.href = '/admin';
                       }}
-                      className="w-full text-left group"
+                      className="w-full text-left group cursor-pointer"
                     >
                       <div className="flex justify-between items-center py-4 border-b border-gray-300 group-hover:border-black transition-colors">
                         <span className="text-2xl font-medium tracking-wide text-gray-800 group-hover:text-black transition-colors">Panel Admin</span>
@@ -134,7 +134,7 @@ export default function AuthDrawer({ isOpen, onClose }: AuthDrawerProps) {
                       handleClose();
                       window.location.href = '/my-orders';
                     }}
-                    className="w-full text-left group"
+                    className="w-full text-left group cursor-pointer"
                   >
                     <div className="flex justify-between items-center py-4 border-b border-gray-300 group-hover:border-black transition-colors">
                       <span className="text-2xl font-medium tracking-wide text-gray-800 group-hover:text-black transition-colors">Historial de compras</span>
@@ -147,7 +147,7 @@ export default function AuthDrawer({ isOpen, onClose }: AuthDrawerProps) {
                       logout();
                       handleClose();
                     }}
-                    className="w-full text-left group"
+                    className="w-full text-left group cursor-pointer"
                   >
                     <div className="flex justify-between items-center py-4 border-b border-gray-300 group-hover:border-black transition-colors">
                       <span className="text-2xl font-medium tracking-wide text-kuromizu-accent transition-colors">Cerrar sesión</span>

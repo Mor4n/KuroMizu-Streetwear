@@ -31,7 +31,7 @@ export default function Products() {
     }, [selectedCategory]);
 
     return (
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+        <div id="productos" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
             {/* Hero Banner q dice "para ti"*/}
             <div className="mb-12 text-center sm:text-left">
                 <h1 className="text-4xl md:text-5xl font-extrabold text-white tracking-tight mb-4 uppercase">

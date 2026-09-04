@@ -1,6 +1,7 @@
 import React from 'react';
 import { useAuth } from '../context/AuthContext';
 import { useCart } from '../context/CartContext';
+import { Link } from 'react-router-dom';
 
 interface NavbarProps {
   onProfileClick: () => void;
@@ -13,7 +14,9 @@ export default function Navbar({ onProfileClick }: NavbarProps) {
   return (
     <header className="flex justify-between items-center pb-6 border-b border-gray-200 relative z-10">
       <h1 className="text-2xl font-light tracking-[0.2em] uppercase">
-        KUROMIZU <span className="text-kuromizu-accent font-bold ml-1">黒水</span>
+        <Link to="/" className="hover:text-gray-500 transition-colors">
+          KUROMIZU <span className="text-kuromizu-accent font-bold ml-1">黒水</span>
+        </Link>
       </h1>
       <div className="flex gap-6 items-center">
         <button
