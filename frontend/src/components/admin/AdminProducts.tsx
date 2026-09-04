@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import api from '../../api/axios';
+import ProductFormModal from './ProductFormModal';
 
 interface ProductSize {
   id: string;
@@ -21,6 +22,9 @@ export default function AdminProducts() {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [editingProduct, setEditingProduct] = useState<Product | null>(null);
 
   useEffect(() => {
     fetchProducts();
@@ -53,6 +57,16 @@ export default function AdminProducts() {
     return sizes.reduce((acc, curr) => acc + (Number(curr.stock) || 0), 0);
   };
 
+  const handleEdit = (product: Product) => {
+    setEditingProduct(product);
+    setIsModalOpen(true);
+  };
+
+  const handleCreate = () => {
+    setEditingProduct(null);
+    setIsModalOpen(true);
+  };
+
   if (loading) {
     return (
       <div className="py-20 flex justify-center">
@@ -75,7 +89,10 @@ export default function AdminProducts() {
         <p className="text-sm text-gray-500">
           Gestiona el catálogo de la tienda. Puedes ocultar productos agotados o crear nuevos.
         </p>
-        <button className="bg-black text-white px-6 py-2 text-xs font-bold uppercase tracking-wider hover:bg-gray-800 transition-colors cursor-pointer">
+        <button 
+          onClick={handleCreate}
+          className="bg-black text-white px-6 py-2 text-xs font-bold uppercase tracking-wider hover:bg-gray-800 transition-colors cursor-pointer"
+        >
           + Nuevo Producto
         </button>
       </div>
@@ -138,7 +155,10 @@ export default function AdminProducts() {
                     </span>
                   </td>
                   <td className="px-6 py-4 text-right space-x-4">
-                    <button className="text-blue-600 hover:text-blue-800 font-bold text-xs uppercase tracking-wider cursor-pointer">
+                    <button 
+                      onClick={() => handleEdit(product)}
+                      className="text-blue-600 hover:text-blue-800 font-bold text-xs uppercase tracking-wider cursor-pointer"
+                    >
                       Editar
                     </button>
                     {product.is_active && (
@@ -156,6 +176,13 @@ export default function AdminProducts() {
           </tbody>
         </table>
       </div>
+
+      <ProductFormModal 
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        product={editingProduct}
+        onSuccess={fetchProducts}
+      />
     </div>
   );
 }
