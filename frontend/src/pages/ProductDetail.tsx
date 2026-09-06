@@ -176,6 +176,11 @@ export default function ProductDetail() {
                     <div className="mb-8">
                         <div className="flex justify-between items-end mb-3">
                             <span className="font-bold text-sm uppercase tracking-wider">Talla</span>
+                            {selectedSize && (
+                                <span className="text-xs text-gray-500 font-medium tracking-wide">
+                                    {product.product_sizes?.find(ps => ps.size === selectedSize)?.stock} disponibles
+                                </span>
+                            )}
                         </div>
                         <div className="grid grid-cols-4 gap-3">
                             {product.product_sizes && product.product_sizes.length > 0 ? (

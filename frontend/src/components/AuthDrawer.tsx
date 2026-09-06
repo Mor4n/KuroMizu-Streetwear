@@ -200,7 +200,7 @@ export default function AuthDrawer({ isOpen, onClose }: AuthDrawerProps) {
                 <button
                   type="submit"
                   disabled={isLoginSubmitting}
-                  className="group w-full py-4 bg-transparent border-2 border-black text-black font-bold uppercase tracking-[0.2em] text-sm hover:bg-black hover:text-white disabled:opacity-50 transition-all duration-300 relative overflow-hidden flex items-center justify-center gap-3"
+                  className="group w-full py-4 bg-transparent border-2 border-black text-black font-bold uppercase tracking-[0.2em] text-sm hover:bg-black hover:text-white disabled:opacity-50 transition-all duration-300 relative overflow-hidden flex items-center justify-center gap-3 cursor-pointer"
                 >
                   <span className="relative z-10">{isLoginSubmitting ? 'Verificando...' : 'Entrar'}</span>
                   {!isLoginSubmitting && <span className="relative z-10 group-hover:translate-x-1 transition-transform">&rarr;</span>}
@@ -256,7 +256,7 @@ export default function AuthDrawer({ isOpen, onClose }: AuthDrawerProps) {
                 <button
                   type="submit"
                   disabled={isSignupSubmitting}
-                  className="group w-full py-4 bg-transparent border-2 border-black text-black font-bold uppercase tracking-[0.2em] text-sm hover:bg-black hover:text-white disabled:opacity-50 transition-all duration-300 relative overflow-hidden flex items-center justify-center gap-3"
+                  className="group w-full py-4 bg-transparent border-2 border-black text-black font-bold uppercase tracking-[0.2em] text-sm hover:bg-black hover:text-white disabled:opacity-50 transition-all duration-300 relative overflow-hidden flex items-center justify-center gap-3 cursor-pointer"
                 >
                   <span>{isSignupSubmitting ? 'Procesando...' : 'Completar Registro'}</span>
                   {!isSignupSubmitting && <span className="group-hover:translate-x-1 transition-transform">&rarr;</span>}
