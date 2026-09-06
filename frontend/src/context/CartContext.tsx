@@ -40,7 +40,10 @@ export function CartProvider({ children }: { children: ReactNode }) {
             if (existingItemIndex >= 0) {
                 const newItems = [...prevItems];
                 const newQuantity = newItems[existingItemIndex].quantity + newItem.quantity;
-                newItems[existingItemIndex].quantity = Math.min(newQuantity, newItems[existingItemIndex].maxStock);
+                newItems[existingItemIndex] = {
+                    ...newItems[existingItemIndex],
+                    quantity: Math.min(newQuantity, newItems[existingItemIndex].maxStock)
+                };
                 return newItems;
             } else {
                 return [...prevItems, newItem];
