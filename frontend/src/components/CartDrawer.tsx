@@ -117,10 +117,9 @@ export default function CartDrawer() {
                             <span className="font-bold uppercase tracking-wider text-sm">Subtotal</span>
                             <span className="font-bold text-lg">${cartTotal.toFixed(2)}</span>
                         </div>
-                        <p className="text-xs text-gray-500 mb-6 text-center">Los impuestos y el envío se calculan en el checkout.</p>
 
                         <Link to="/checkout" onClick={() => setIsCartOpen(false)}>
-                            <button className="w-full bg-black text-white py-4 text-sm font-bold tracking-widest hover:bg-gray-900 transition-colors uppercase border-2 border-black hover:border-transparent">
+                            <button className="w-full bg-black text-white py-4 text-sm font-bold cursor-pointer tracking-widest hover:bg-gray-900 transition-colors uppercase border-2 border-black hover:border-transparent">
                                 PROCEDER AL PAGO
                             </button>
                         </Link>

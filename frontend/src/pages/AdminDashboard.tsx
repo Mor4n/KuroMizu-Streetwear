@@ -201,21 +201,19 @@ export default function AdminDashboard() {
         <nav className="flex flex-col gap-2">
           <button
             onClick={() => setActiveTab('orders')}
-            className={`text-left px-4 py-3 text-sm font-bold tracking-widest uppercase transition-colors border-l-2 ${
-              activeTab === 'orders' 
-                ? 'border-black bg-gray-50 text-black' 
+            className={`text-left px-4 py-3 text-sm font-bold tracking-widest uppercase transition-colors border-l-2 cursor-pointer ${activeTab === 'orders'
+                ? 'border-black bg-gray-50 text-black'
                 : 'border-transparent text-gray-500 hover:bg-gray-50 hover:text-black'
-            }`}
+              }`}
           >
             Órdenes
           </button>
           <button
             onClick={() => setActiveTab('products')}
-            className={`text-left px-4 py-3 text-sm font-bold tracking-widest uppercase transition-colors border-l-2 ${
-              activeTab === 'products' 
-                ? 'border-black bg-gray-50 text-black' 
+            className={`text-left px-4 py-3 text-sm font-bold tracking-widest uppercase transition-colors border-l-2 cursor-pointer ${activeTab === 'products'
+                ? 'border-black bg-gray-50 text-black'
                 : 'border-transparent text-gray-500 hover:bg-gray-50 hover:text-black'
-            }`}
+              }`}
           >
             Productos
           </button>
@@ -227,7 +225,7 @@ export default function AdminDashboard() {
         <h2 className="text-xl font-bold tracking-wider uppercase mb-6">
           {activeTab === 'orders' ? 'Gestión de Órdenes' : 'Catálogo de Productos'}
         </h2>
-        
+
         {activeTab === 'orders' && renderOrdersTable()}
         {activeTab === 'products' && <AdminProducts />}
       </main>

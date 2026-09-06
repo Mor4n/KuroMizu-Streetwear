@@ -176,7 +176,6 @@ export default function ProductDetail() {
                     <div className="mb-8">
                         <div className="flex justify-between items-end mb-3">
                             <span className="font-bold text-sm uppercase tracking-wider">Talla</span>
-                            <span className="text-xs text-gray-400 underline cursor-pointer hover:text-black">Guía de tallas</span>
                         </div>
                         <div className="grid grid-cols-4 gap-3">
                             {product.product_sizes && product.product_sizes.length > 0 ? (
@@ -236,9 +235,9 @@ export default function ProductDetail() {
 
                     <div className="mt-8 pt-8 border-t border-gray-100">
                         <ul className="text-sm text-gray-500 space-y-2">
-                            <li className="flex items-center gap-2">✓ Envío gratis en pedidos mayores a $1000</li>
-                            <li className="flex items-center gap-2">✓ Material: 100% Algodón Premium</li>
-                            <li className="flex items-center gap-2">✓ Estampado de alta durabilidad</li>
+                            <li className="flex items-center gap-2">Envío gratis en pedidos mayores a $1000</li>
+                            <li className="flex items-center gap-2">Material: 100% Algodón Premium</li>
+                            <li className="flex items-center gap-2">Estampado de alta durabilidad</li>
                         </ul>
                     </div>
                 </div>

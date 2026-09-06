@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { getProducts, getProductById, createProduct, updateProduct, archiveProduct } from '../controllers/product.controller.js';
+import { getProducts, getProductById, createProduct, updateProduct, archiveProduct, unarchiveProduct } from '../controllers/product.controller.js';
 import { verifyToken, isAdmin } from '../middlewares/auth.middleware.js';
 
 const router = Router();
@@ -12,5 +12,6 @@ router.get('/:id', getProductById);
 router.post('/', verifyToken, isAdmin, createProduct);
 router.put('/:id', verifyToken, isAdmin, updateProduct);
 router.delete('/:id', verifyToken, isAdmin, archiveProduct);
+router.patch('/:id/unarchive', verifyToken, isAdmin, unarchiveProduct);
 
 export default router;

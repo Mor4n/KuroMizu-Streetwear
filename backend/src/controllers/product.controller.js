@@ -135,3 +135,21 @@ export const archiveProduct = async (req, res) => {
         res.status(500).json({ message: 'Error al eliminar producto', error: error.message });
     }
 };
+
+export const unarchiveProduct = async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        const { error } = await supabase
+            .from('products')
+            .update({ is_active: true })
+            .eq('id', id);
+
+        if (error) throw error;
+
+        res.status(200).json({ message: 'Producto desarchivado exitosamente' });
+    } catch (error) {
+        console.error('Error unarchiving product:', error);
+        res.status(500).json({ message: 'Error al desarchivar producto', error: error.message });
+    }
+};

@@ -52,6 +52,16 @@ export default function AdminProducts() {
     }
   };
 
+  const handleUnarchive = async (id: string) => {
+    if (!window.confirm('¿Seguro que deseas volver a publicar este producto?')) return;
+    try {
+      await api.patch(`/products/${id}/unarchive`);
+      fetchProducts();
+    } catch (err: any) {
+      alert(err.response?.data?.message || 'Error al desarchivar el producto');
+    }
+  };
+
   const getTotalStock = (sizes: ProductSize[]) => {
     if (!sizes || sizes.length === 0) return 0;
     return sizes.reduce((acc, curr) => acc + (Number(curr.stock) || 0), 0);
@@ -146,10 +156,10 @@ export default function AdminProducts() {
                     </div>
                   </td>
                   <td className="px-6 py-4">
-                    <span className={`px-3 py-1 text-[10px] font-bold uppercase tracking-widest border ${
+                    <span className={`px-3 py-1 text-xs font-bold uppercase tracking-widest ${
                       product.is_active 
-                        ? 'border-green-200 bg-green-50 text-green-700' 
-                        : 'border-gray-200 bg-gray-50 text-gray-500'
+                        ? 'text-green-600' 
+                        : 'text-gray-500'
                     }`}>
                       {product.is_active ? 'Activo' : 'Archivado'}
                     </span>
@@ -161,12 +171,19 @@ export default function AdminProducts() {
                     >
                       Editar
                     </button>
-                    {product.is_active && (
+                    {product.is_active ? (
                       <button 
                         onClick={() => handleArchive(product.id)}
                         className="text-red-600 hover:text-red-800 font-bold text-xs uppercase tracking-wider cursor-pointer"
                       >
                         Archivar
+                      </button>
+                    ) : (
+                      <button 
+                        onClick={() => handleUnarchive(product.id)}
+                        className="text-green-600 hover:text-green-800 font-bold text-xs uppercase tracking-wider cursor-pointer"
+                      >
+                        Desarchivar
                       </button>
                     )}
                   </td>

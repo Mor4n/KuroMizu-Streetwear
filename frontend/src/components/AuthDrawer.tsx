@@ -105,15 +105,6 @@ export default function AuthDrawer({ isOpen, onClose }: AuthDrawerProps) {
             <div className="flex flex-col gap-8">
               {user ? (
                 <>
-                  <button
-                    className="w-full text-left group cursor-pointer"
-                  >
-                    <div className="flex justify-between items-center py-4 border-b border-gray-300 group-hover:border-black transition-colors">
-                      <span className="text-2xl font-medium tracking-wide text-gray-800 group-hover:text-black transition-colors">Editar cuenta</span>
-                      <span className="text-gray-500 group-hover:text-kuromizu-accent transition-colors font-bold">&rarr;</span>
-                    </div>
-                  </button>
-
                   {user.role === 'admin' && (
                     <button
                       onClick={() => {
@@ -159,7 +150,7 @@ export default function AuthDrawer({ isOpen, onClose }: AuthDrawerProps) {
                 <>
                   <button
                     onClick={() => { setDrawerMode('login'); setApiError(''); }}
-                    className="w-full text-left group"
+                    className="w-full text-left group cursor-pointer"
                   >
                     <div className="flex justify-between items-center py-4 border-b border-gray-300 group-hover:border-black transition-colors">
                       <span className="text-2xl font-medium tracking-wide text-gray-800 group-hover:text-black transition-colors">Iniciar Sesión</span>
@@ -169,7 +160,7 @@ export default function AuthDrawer({ isOpen, onClose }: AuthDrawerProps) {
 
                   <button
                     onClick={() => { setDrawerMode('register'); setApiError(''); }}
-                    className="w-full text-left group"
+                    className="w-full text-left group cursor-pointer"
                   >
                     <div className="flex justify-between items-center py-4 border-b border-gray-300 group-hover:border-black transition-colors">
                       <span className="text-2xl font-medium tracking-wide text-gray-800 group-hover:text-black transition-colors">Registrarse</span>
@@ -219,7 +210,7 @@ export default function AuthDrawer({ isOpen, onClose }: AuthDrawerProps) {
               <button
                 type="button"
                 onClick={() => { setDrawerMode('menu'); setApiError(''); resetLogin(); }}
-                className="w-full mt-6 text-xs font-bold text-gray-600 hover:text-black uppercase tracking-widest transition-colors flex items-center justify-center gap-2"
+                className="w-full mt-6 text-xs font-bold text-gray-600 hover:text-black uppercase tracking-widest transition-colors flex items-center justify-center gap-2 cursor-pointer"
               >
                 <span>&larr;</span> Atrás
               </button>
@@ -275,7 +266,7 @@ export default function AuthDrawer({ isOpen, onClose }: AuthDrawerProps) {
               <button
                 type="button"
                 onClick={() => { setDrawerMode('menu'); setApiError(''); resetSignup(); }}
-                className="w-full mt-6 text-xs font-bold text-gray-600 hover:text-black uppercase tracking-widest transition-colors flex items-center justify-center gap-2"
+                className="w-full mt-6 text-xs font-bold text-gray-600 hover:text-black uppercase tracking-widest transition-colors flex items-center justify-center gap-2 cursor-pointer"
               >
                 <span>&larr;</span> Atrás
               </button>
