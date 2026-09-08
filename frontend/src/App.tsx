@@ -7,6 +7,7 @@ import Checkout from './pages/Checkout';
 import CheckoutSuccess from './pages/CheckoutSuccess';
 import AdminDashboard from './pages/AdminDashboard';
 import MyOrders from './pages/MyOrders';
+import NotFound from './pages/NotFound';
 import Layout from './components/Layout';
 import ProtectedRoute from './components/ProtectedRoute';
 
@@ -73,6 +74,8 @@ export default function App() {
               <Route element={<ProtectedRoute requiredRole="admin" />}>
                 <Route path="/admin" element={<AdminDashboard />} />
               </Route>
+
+              <Route path="*" element={<NotFound />} />
             </Routes>
           </Layout>
         </BrowserRouter>
