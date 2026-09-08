@@ -10,8 +10,8 @@ KuroMizu resuelve el flujo comercial de una tienda de ropa exclusiva (*drops* de
 
 ### Módulos del Sistema
 * **Catálogo Reactivo:** Renderizado de prendas, selector dinámico de tallas y filtrado multivariable en el cliente (categorías, stock y rango de precios).
-* **Gestor de Compras: ** Carrito persistente basado en almacenamiento local (`localStorage`), control de cantidades y cálculo automático de totales.
-* **Simulador de Transacciones:** Validación de datos de envío y registro de órdenes vinculadas a la sesión del usuario.
+* **Gestor de Compras:** Carrito persistente basado en almacenamiento local (`localStorage`), control de cantidades y cálculo automático de totales.
+* **Transacciones (Stripe):** Pagos procesados a través de Stripe, validación de datos de envío y registro de órdenes.
 * **Panel de Control:** Interfaz para administradores con operaciones CRUD sobre el inventario, control de existencias y altas de productos.
 
 ---
@@ -29,14 +29,15 @@ KuroMizu resuelve el flujo comercial de una tienda de ropa exclusiva (*drops* de
 * **Entorno:** Node.js con Express.js
 * **Base de Datos y nube:** PostgreSQL administrado en Supabase
 * **Autenticación:** JSON Web Tokens (JWT) + Bcryptjs
-* **Despliegue & CI/CD:** Vercel (Frontend SPA) + Render/Railway (API REST)
+* **Pagos:** Stripe (Payment Intents y Webhooks)
+* **Despliegue & CI/CD:** Vercel (Frontend + Backend )
 * **Gestor de Paquetes:** pnpm
 
 ---
 
 ## Acuerdos y dinámica de trabajo
 
-## Plan de Ejecución y Organización (Cronograma 20-28 Agosto)
+## Plan de Ejecución y Organización (Cronograma 20 de agosto - 8 de septiembre)
 
 El desarrollo se gestionará por entregas incrementales divididas en dos fases:
 
@@ -50,7 +51,7 @@ El desarrollo se gestionará por entregas incrementales divididas en dos fases:
 
 ### Fase 2: Transacciones y Estado Global
   * **Carrito de Compras:** Estado global con React Context API, cálculo dinámico de totales y sincronización con `localStorage`.
-  * **Órdenes y Checkout:** Endpoint `POST /api/orders` y formulario de checkout simulado para procesar pedidos.
+  * **Órdenes y Checkout (Stripe):** Endpoint `POST /api/create-payment-intent`, webhook para confirmar pagos (`payment_intent.succeeded`) y procesamiento de pedidos reales.
   * **Historial de Pedidos:** Endpoint `GET /api/orders/my-orders` y vista de compras del usuario autenticado.
 
 ### Fase 3: Cierre y Producción

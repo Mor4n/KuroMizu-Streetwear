@@ -21,8 +21,7 @@ function Home() {
           playsInline
           className="absolute inset-0 w-full h-full object-cover"
         >
-          {/* NOOOTA: OCUPO CAMBIAR ESTE VIDEO EN EL FUTURO POR OTRO */}
-          <source src="https://hosshi.netlify.app/assets/tienda-online-zoPwI51s.mp4" type="video/mp4" />
+          <source src="/videos/hero.mp4" type="video/mp4" />
         </video>
 
         <div className="absolute inset-0 bg-gray-900/60 z-0"></div>
@@ -31,7 +30,7 @@ function Home() {
           <h2 className="text-5xl md:text-7xl font-display uppercase tracking-wider mb-6">
             KuroMizu <span className="text-transparent bg-clip-text bg-gradient-to-r from-gray-200 to-gray-500">Season 1</span>
           </h2>
-          <button 
+          <button
             onClick={() => document.getElementById('marquee')?.scrollIntoView({ behavior: 'smooth' })}
             className="group px-10 py-4 bg-white text-black font-bold uppercase tracking-[0.2em] hover:bg-black hover:text-white transition-all duration-300 border-2 border-white cursor-pointer rounded-none"
           >
