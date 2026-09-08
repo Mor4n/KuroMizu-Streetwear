@@ -55,7 +55,7 @@ El desarrollo se gestionará por entregas incrementales divididas en dos fases:
   * **Historial de Pedidos:** Endpoint `GET /api/orders/my-orders` y vista de compras del usuario autenticado.
 
 ### Fase 3: Cierre y Producción
-  * **Testing & Deploy:** Pruebas de integración, optimización responsiva (mobile-first), configuración de variables de entorno y despliegue final en Vercel.
+  * **Despliegue & Ajustes Finales:** Configuración de variables de entorno, ajustes de compatibilidad SPA (rutas de React Router), y despliegue final en producción mediante Vercel (Monorepo).
 
 ---
 
