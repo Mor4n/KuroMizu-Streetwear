@@ -101,6 +101,10 @@ export default function ProductDetail() {
         );
     }
 
+    const totalStock = product.product_sizes && product.product_sizes.length > 0 
+        ? product.product_sizes.reduce((sum, size) => sum + size.stock, 0)
+        : product.stock;
+
     return (
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 relative">
             <div className="mb-6">
@@ -155,8 +159,12 @@ export default function ProductDetail() {
                         ) : (
                             <div className="w-full h-full flex items-center justify-center text-gray-400">Sin imagen</div>
                         )}
-                        {product.stock === 0 && (
-                            <div className="absolute top-0 right-0 bg-black text-white text-sm font-bold px-4 py-2  tracking-wider">
+                        {!product.is_active ? (
+                            <div className="absolute top-0 right-0 bg-red-900 text-white text-xs font-bold px-4 py-2 tracking-widest uppercase">
+                                ARCHIVED
+                            </div>
+                        ) : totalStock === 0 && (
+                            <div className="absolute top-0 right-0 bg-black text-white text-xs font-bold px-4 py-2 tracking-widest uppercase">
                                 SOLD OUT
                             </div>
                         )}
@@ -213,22 +221,26 @@ export default function ProductDetail() {
                                 isSoldOut = !selectedPs || selectedPs.stock === 0;
                             }
                         } else {
-                            isSoldOut = product.stock === 0;
+                            isSoldOut = totalStock === 0;
                         }
+
+                        const isArchived = !product.is_active;
 
                         return (
                             <button
                                 onClick={handleAddToCart}
-                                disabled={isSoldOut || isAdding}
-                                className={`w-full py-5 text-center font-bold uppercase tracking-[0.3em] rounded-none transition-all relative overflow-hidden cursor-pointer
-                                    ${isSoldOut
+                                disabled={isSoldOut || isAdding || isArchived}
+                                className={`w-full py-5 text-center font-bold uppercase tracking-[0.3em] rounded-none transition-all relative overflow-hidden
+                                    ${(isSoldOut || isArchived)
                                         ? 'bg-gray-200 text-gray-500 cursor-not-allowed'
-                                        : 'bg-black text-white hover:bg-gray-900 border-2 border-black hover:border-transparent'
+                                        : 'bg-black text-white hover:bg-gray-900 border-2 border-black hover:border-transparent cursor-pointer'
                                     }
                                 `}
                             >
                                 {isAdding ? (
                                     <span className="inline-block animate-pulse">PROCESSING...</span>
+                                ) : isArchived ? (
+                                    'ARCHIVED'
                                 ) : isSoldOut ? (
                                     'OUT OF STOCK'
                                 ) : (

@@ -153,3 +153,45 @@ export const unarchiveProduct = async (req, res) => {
         res.status(500).json({ message: 'Error al desarchivar producto', error: error.message });
     }
 };
+
+export const deleteProduct = async (req, res) => {
+    try {
+        const { id } = req.params;
+
+
+        const { data: existingOrders, error: checkError } = await supabase
+            .from('order_items')
+            .select('id')
+            .eq('product_id', id)
+            .limit(1);
+
+        if (checkError) throw checkError;
+
+        if (existingOrders && existingOrders.length > 0) {
+            return res.status(400).json({
+                message: 'No se puede borrar el producto porque ya tiene pedidos registrados, favor de archivarlo en su lugar'
+            });
+        }
+
+
+        const { error: sizesError } = await supabase
+            .from('product_sizes')
+            .delete()
+            .eq('id_product', id);
+
+        if (sizesError) throw sizesError;
+
+
+        const { error: productError } = await supabase
+            .from('products')
+            .delete()
+            .eq('id', id);
+
+        if (productError) throw productError;
+
+        res.status(200).json({ message: 'Producto eliminado permanentemente' });
+    } catch (error) {
+        console.error('Error deleting product:', error);
+        res.status(500).json({ message: 'Error al eliminar producto permanentemente', error: error.message });
+    }
+};

@@ -22,7 +22,7 @@ export default function AdminProducts() {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
-  
+
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingProduct, setEditingProduct] = useState<Product | null>(null);
 
@@ -59,6 +59,16 @@ export default function AdminProducts() {
       fetchProducts();
     } catch (err: any) {
       alert(err.response?.data?.message || 'Error al desarchivar el producto');
+    }
+  };
+
+  const handleHardDelete = async (id: string) => {
+    if (!window.confirm('OJITO, ¿Seguro que deseas ELIMINAR PERMANENTEMENTE este producto? Esta acción no se puede deshacer.')) return;
+    try {
+      await api.delete(`/products/${id}/hard`);
+      fetchProducts();
+    } catch (err: any) {
+      alert(err.response?.data?.message || 'Error al eliminar el producto de forma permanente.');
     }
   };
 
@@ -99,7 +109,7 @@ export default function AdminProducts() {
         <p className="text-sm text-gray-500">
           Gestiona el catálogo de la tienda. Puedes ocultar productos agotados o crear nuevos.
         </p>
-        <button 
+        <button
           onClick={handleCreate}
           className="bg-black text-white px-6 py-2 text-xs font-bold uppercase tracking-wider hover:bg-gray-800 transition-colors cursor-pointer"
         >
@@ -156,36 +166,43 @@ export default function AdminProducts() {
                     </div>
                   </td>
                   <td className="px-6 py-4">
-                    <span className={`px-3 py-1 text-xs font-bold uppercase tracking-widest ${
-                      product.is_active 
-                        ? 'text-green-600' 
+                    <span className={`px-3 py-1 text-xs font-bold uppercase tracking-widest ${product.is_active
+                        ? 'text-green-600'
                         : 'text-gray-500'
-                    }`}>
+                      }`}>
                       {product.is_active ? 'Activo' : 'Archivado'}
                     </span>
                   </td>
-                  <td className="px-6 py-4 text-right space-x-4">
-                    <button 
-                      onClick={() => handleEdit(product)}
-                      className="text-blue-600 hover:text-blue-800 font-bold text-xs uppercase tracking-wider cursor-pointer"
-                    >
-                      Editar
-                    </button>
-                    {product.is_active ? (
-                      <button 
-                        onClick={() => handleArchive(product.id)}
-                        className="text-red-600 hover:text-red-800 font-bold text-xs uppercase tracking-wider cursor-pointer"
+                  <td className="px-6 py-4">
+                    <div className="flex flex-col items-end gap-2">
+                      <button
+                        onClick={() => handleEdit(product)}
+                        className="text-blue-600 hover:text-blue-800 font-bold text-xs uppercase tracking-wider cursor-pointer"
                       >
-                        Archivar
+                        Editar
                       </button>
-                    ) : (
-                      <button 
-                        onClick={() => handleUnarchive(product.id)}
-                        className="text-green-600 hover:text-green-800 font-bold text-xs uppercase tracking-wider cursor-pointer"
+                      {product.is_active ? (
+                        <button
+                          onClick={() => handleArchive(product.id)}
+                          className="text-red-600 hover:text-red-800 font-bold text-xs uppercase tracking-wider cursor-pointer"
+                        >
+                          Archivar
+                        </button>
+                      ) : (
+                        <button
+                          onClick={() => handleUnarchive(product.id)}
+                          className="text-green-600 hover:text-green-800 font-bold text-xs uppercase tracking-wider cursor-pointer"
+                        >
+                          Desarchivar
+                        </button>
+                      )}
+                      <button
+                        onClick={() => handleHardDelete(product.id)}
+                        className="text-red-900 hover:text-red-950 font-bold text-xs uppercase tracking-wider cursor-pointer"
                       >
-                        Desarchivar
+                        Eliminar
                       </button>
-                    )}
+                    </div>
                   </td>
                 </tr>
               ))
@@ -194,7 +211,7 @@ export default function AdminProducts() {
         </table>
       </div>
 
-      <ProductFormModal 
+      <ProductFormModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
         product={editingProduct}
