@@ -3,6 +3,7 @@ import { useLocation } from 'react-router-dom';
 import Navbar from './Navbar';
 import AuthDrawer from './AuthDrawer';
 import CartDrawer from './CartDrawer';
+import Footer from './Footer';
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
@@ -24,6 +25,8 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       <main className={isHomePage ? "" : "flex-grow"}>
         {children}
       </main>
+
+      <Footer />
     </div>
   );
 }
