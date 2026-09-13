@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import api from '../api/axios';
 import AdminProducts from '../components/admin/AdminProducts';
+import Spinner from '../components/Spinner';
 
 interface OrderItem {
   id: string;
@@ -89,8 +90,8 @@ export default function AdminDashboard() {
   const renderOrdersTable = () => {
     if (loading) {
       return (
-        <div className="py-20 flex justify-center">
-          <div className="text-sm font-bold tracking-widest uppercase animate-pulse">Cargando Órdenes...</div>
+        <div className="px-6 py-20 flex justify-center">
+          <Spinner />
         </div>
       );
     }

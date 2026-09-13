@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import api from '../api/axios';
 import { useCart } from '../context/CartContext';
+import Spinner from '../components/Spinner';
 
 interface Product {
     id: string;
@@ -86,8 +87,8 @@ export default function ProductDetail() {
 
     if (loading) {
         return (
-            <div className="min-h-[70vh] flex items-center justify-center">
-                <div className="text-xl font-bold tracking-widest uppercase animate-pulse">Cargando...</div>
+            <div className="min-h-screen flex items-center justify-center">
+                <Spinner />
             </div>
         );
     }

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import Spinner from '../components/Spinner';
 
 export default function NotFound() {
   const [gifUrl, setGifUrl] = useState('');
@@ -41,7 +42,7 @@ export default function NotFound() {
         </div>
       ) : (
         <div className="w-full max-w-md h-64 md:h-80 bg-gray-100 mb-8 border border-gray-200 animate-pulse flex items-center justify-center">
-          <span className="text-gray-400 font-bold uppercase tracking-widest text-xs">Cargando...</span>
+          <Spinner />
         </div>
       )}
 

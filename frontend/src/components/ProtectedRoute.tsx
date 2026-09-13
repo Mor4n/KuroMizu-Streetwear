@@ -1,5 +1,6 @@
 import { Navigate, Outlet } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import Spinner from './Spinner';
 
 interface ProtectedRouteProps {
   requiredRole?: 'admin' | 'client';
@@ -10,8 +11,8 @@ export default function ProtectedRoute({ requiredRole }: ProtectedRouteProps) {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-xl font-bold tracking-widest uppercase animate-pulse">Cargando...</div>
+      <div className="min-h-screen flex items-center justify-center bg-kuromizu-bg">
+        <Spinner />
       </div>
     );
   }

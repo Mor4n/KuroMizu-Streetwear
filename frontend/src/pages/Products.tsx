@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import api from '../api/axios';
+import Spinner from '../components/Spinner';
 
 const CATEGORIES = ['Todo', 'Camisas', 'Abrigos', 'Hoodies', 'Accesorios'];
 
@@ -31,7 +32,7 @@ export default function Products() {
     }, [selectedCategory]);
 
     return (
-        <div id="productos" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+        <div id="productos" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 min-h-[1050px]">
             {/* Hero Banner q dice "para ti"*/}
             <div className="mb-12 text-center sm:text-left">
                 <h1 className="text-4xl md:text-5xl font-extrabold text-white tracking-tight mb-4 uppercase">
@@ -58,7 +59,7 @@ export default function Products() {
 
             {/* Grid Productos */}
             {loading ? (
-                <div className="text-center text-kuromizu-accent py-20">Cargando catálogo...</div>
+                <Spinner />
             ) : products.length === 0 ? (
                 <div className="text-center text-gray-500 py-20">No hay productos en esta categoría.</div>
             ) : (

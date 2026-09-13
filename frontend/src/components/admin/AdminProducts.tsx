@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import api from '../../api/axios';
 import ProductFormModal from './ProductFormModal';
+import Spinner from '../Spinner';
 
 interface ProductSize {
   id: string;
@@ -89,8 +90,8 @@ export default function AdminProducts() {
 
   if (loading) {
     return (
-      <div className="py-20 flex justify-center">
-        <div className="text-sm font-bold tracking-widest uppercase animate-pulse">Cargando Productos...</div>
+      <div className="px-6 py-20 flex justify-center">
+        <Spinner />
       </div>
     );
   }

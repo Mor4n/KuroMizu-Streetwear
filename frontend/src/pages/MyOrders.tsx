@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import api from '../api/axios';
+import Spinner from '../components/Spinner';
 
 interface OrderItem {
   id: string;
@@ -61,7 +63,7 @@ export default function MyOrders() {
   if (loading) {
     return (
       <div className="max-w-4xl mx-auto px-4 py-20 flex justify-center">
-        <div className="text-sm font-bold tracking-widest uppercase animate-pulse">Cargando tus pedidos...</div>
+        <Spinner />
       </div>
     );
   }
